@@ -4,11 +4,12 @@ import tensorflow.keras.metrics as metrics
 import tensorflow.keras.losses as losses
 import tensorflow.keras.activations as activations
 import tensorflow.keras.optimizers as optimizers
+import tensorflow.keras.layers as layers
 
 class LayerKeys:
-    dpKey='dp'
-    batchNormKey='bn'
-    normKey='n'
+    DPKEY='dp'
+    BNKEY='bn'
+    NKEY='n'
 
 class FcNetwork(LayerKeys):
     """
@@ -60,24 +61,26 @@ class FcNetwork(LayerKeys):
             exit()
 
     def __build(self):
-        self._seqModel.add(tf.keras.layers.Flatten(input_shape=(self._layersList[0], 1)))  
-        for entry in self._layersList[1:self._noLayers]: 
-            if(isinstance(entry, dict)):
-                if self.dpKey in entry.keys():
-                    self._seqModel.add(tf.keras.layers.Dropout(rate=entry[self.dpKey]))
-            elif(isinstance(entry, int)):
-                self._seqModel.add(tf.keras.layers.Dense(entry, activation=self._aFunc))
-            elif(entry==self.batchNormKey):
-                self._seqModel.add(tf.keras.layers.BatchNormalization())
-            elif(entry==self.normKey):
-                self._seqModel.add(tf.keras.layers.Normalization())
-            else:
-                print('Error: entry not recognized ->', entry)
-                print('Terminating ...')
-                exit()
+        self._seqModel.add(layers.Flatten(input_shape=(self.getNoInputs(), 1)))  
+        for itm in self._layersList[1:self._noLayers]: self._seqModel.add(self.__parseItems(itm))
         print(self._seqModel.summary())
-                
-    def train(self, epochs=10, validationFraction=0.0, optimiser=optimizers.Adam(), loss=losses.mse, metrics=metrics.mse, \
+
+    def __parseItems(self, itm):
+        argument=None
+        if isinstance(itm, int): argument=layers.Dense(itm, activation=self._aFunc)
+        elif isinstance(itm, dict):
+                if self.DPKEY in itm.keys(): argument=layers.Dropout(rate=itm[self.DPKEY])
+        elif isinstance(itm, str):
+                if itm==self.BNKEY: argument=layers.BatchNormalization()
+                elif itm==self.NKEY: argument=layers.Normalization()
+                else:
+                    print('Error: itm not recognized ->', itm)
+                    print('Terminating ...')
+                    exit()
+        return argument
+
+    def train(self, epochs=10, validationFraction=0.0, optimiser=optimizers.Adam(), \
+            loss=losses.mse, metrics=metrics.mse, \
             xtrain=None, ytrain=None, xtest=None, ytest=None):
         self.__checkInputDataShapes(xtrain, xtest)
         self.__printDataShapes(xtrain, ytrain, xtest, ytest)
