@@ -1,8 +1,8 @@
 # trainEasy
   
-**trainEasy**, is a user friendly Python wrapper for constructing deep Artificial Neural Network (ANN) models
- with an arbitraty structure. The user simply provides the structure of the network in a list, and the model is automatically built, and 
- trained. For instance, to build a model having 6 layers with 10, 400, 200, 100, 50, 5 nodes in each layer,
+**trainEasy**, is a user-friendly Python wrapper for building fully-connected deep Artificial Neural Network (ANN) models
+ with an arbitrary structure. The user simply provides the network structure in a list, and the model is automatically built. 
+ For instance, to build a model having 6 layers with 10, 400, 200, 100, 50, 5 nodes in each layer,
  the user simply creates an object of the FcNetwork class using, 
  
  model=FcNetwork([10, 400, 200, 100, 50, 5]). 
