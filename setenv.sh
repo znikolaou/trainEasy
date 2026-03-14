@@ -5,7 +5,8 @@ TRE_TEST=$TRE_HOME/test/
 
 echo ''
 echo '********** TRAIN EASY (2026) **********'
-echo '*** Author: Z. Nikolaou. ***'
+echo '* Author: Z. Nikolaou. ****************'
+echo '***************************************'
 echo ''
 
 echo "Home dir:"
