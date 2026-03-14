@@ -1,5 +1,5 @@
 import libs
-from network import *
+from tefcnetwork import *
 import numpy as np
 import tensorflow as tf
 import tensorflow.keras.losses as losses
@@ -12,5 +12,5 @@ for i in range(nLayers):
     layerList.append(2**(nLayers-i))
 
 #Build model
-fcModel=FcNetwork(layerList)
+fcModel=TeFcNetwork(layerList)
 

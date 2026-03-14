@@ -1,5 +1,5 @@
 import libs 
-from network import *
+from tefcnetwork import *
 import pytest
 
 neuronsList=[10,100,50,5]
@@ -8,7 +8,7 @@ ytrain=np.ones((500,5))
 xtest=np.ones((50,10,10))
 ytest=np.ones((50,5))
 
-network=FcNetwork(neuronsList)
+network=TeFcNetwork(neuronsList)
 
 def testNoLayers(): assert network.getNoLayers()==len(neuronsList)
 
@@ -22,7 +22,7 @@ def testGetDataSampleSize(): assert network.getDataSampleSize(xtrain)==np.shape(
 
 def testUnknownLayerEntry(): 
     with pytest.raises(SystemExit) as e:
-        network=FcNetwork([100, 'a'])
+        network=TeFcNetwork([100, 'a'])
     assert e.type==SystemExit
 
 

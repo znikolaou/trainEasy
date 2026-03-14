@@ -11,7 +11,7 @@ class LayerKeys:
     BNKEY='bn'
     NKEY='n'
 
-class FcNetwork(LayerKeys):
+class TeFcNetwork(LayerKeys):
     """
     Class for building a general-structure fully-connected neural network. 
 
@@ -80,10 +80,7 @@ class FcNetwork(LayerKeys):
         return argument
 
     def train(self, epochs=10, validationFraction=0.0, optimiser=optimizers.Adam(), \
-            loss=losses.mse, metrics=metrics.mse, \
-            xtrain=None, ytrain=None, xtest=None, ytest=None):
-        self.__checkInputDataShapes(xtrain, xtest)
-        self.__printDataShapes(xtrain, ytrain, xtest, ytest)
+            loss=losses.mse, metrics=metrics.mse, xtrain=None, ytrain=None):
         self._seqModel.compile(optimizer=optimiser, loss=loss, metrics=[metrics])
         self.history=self._seqModel.fit(xtrain, ytrain, validation_split=validationFraction, epochs=epochs)
         
